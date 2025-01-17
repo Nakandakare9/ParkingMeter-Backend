@@ -20,7 +20,7 @@ public class ParkingDto {
 	
 	@JsonProperty
     @NotBlank(message = "The parking lot's corporate name field cannot be blank or null.")
-	private String corporateReason;
+	private String name;
 	
 	@JsonProperty
     @NotBlank(message = "The parking phone number field cannot be blank or null.")
@@ -49,7 +49,7 @@ public class ParkingDto {
 	
 	public Parking toParking() {
 		return new Parking(cnpjParking,
-				corporateReason,
+				name,
 				telephoneParking,
 				emailParking,
 				streetAddressParking,

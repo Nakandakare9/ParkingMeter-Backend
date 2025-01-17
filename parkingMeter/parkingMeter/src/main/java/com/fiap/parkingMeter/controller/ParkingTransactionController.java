@@ -20,10 +20,20 @@ import com.fiap.parkingMeter.repository.DriverVehicleRepository;
 import com.fiap.parkingMeter.repository.ParkingRepository;
 import com.fiap.parkingMeter.repository.ParkingTransactionRepository;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
+import jakarta.validation.Validator;
+
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/parking-transaction")
 public class ParkingTransactionController {
+	
+	@Autowired
+    private Validator validator;
 	
 	@Autowired
     private ParkingTransactionRepository parkingTransactionRepository;
@@ -38,63 +48,55 @@ public class ParkingTransactionController {
     private DriverPaymentMethodRepository driverPaymentMethodRepository;
 
     @PostMapping
-    public ResponseEntity<?> registerParkingControl(
-            @RequestBody ParkingTransactionDto parkingTransactionlDto) {
+    public ResponseEntity<?> registerParkingTransaction(
+            @RequestBody ParkingTransactionDto parkingTransactionlRequest) {
+    	Map<Path, String> violationsMap = validate(parkingTransactionlRequest);
+    	
+    	if (!violationsMap.isEmpty()) {
+            return ResponseEntity.badRequest().body(violationsMap);
+        } else {
 
-    	ParkingTransaction parkingTransaction = parkingTransactionlDto.toParkingTransaction();
-
-        Optional<Parking> optionalParking =
-                parkingRepository.findById(
-                		parkingTransaction.getParking().getParkingIdentifierCode());
-
-        if (optionalParking.isEmpty()){
-            return ResponseEntity.badRequest().
-                    body("Registration not allowed: parking ID not found.");
-        }
-
-        Optional<DriverVehicle> optionalDriverVehicle =
-                driverVehicleRepository.findById(
-                		parkingTransaction.getDriverVehicle().getId());
-
-        if (optionalDriverVehicle.isEmpty()){
-            return ResponseEntity.badRequest().
-                    body("Registration not allowed: vehicle not found for the provided CPF and license plate.");
-        }
-
-        parkingTransaction.setParking(optionalParking.get());
-        parkingTransaction.setDriverVehicle(optionalDriverVehicle.get());
-
-        int parkingId =
-        		parkingTransaction.getParking().
-                        getParkingIdentifierCode().
-                        getParkingIdentifierCode();
-
-        String driverCpf =
-        		parkingTransaction.getDriverVehicle().
-                        getId().getCpfDriver().getCpfDriver();
-
-        String vehiclePlate =
-        		parkingTransaction.getDriverVehicle().
-                        getId().getDriverVehicleLicensePlate();
-        
-        int preferredPaymentMethodCode = driverPaymentMethodRepository.getTypePaymentMethodSelectedDriver(driverCpf);
-
-        // If preferred payment method is PIX, do not allow parking control for variable time option
-        if (preferredPaymentMethodCode == PaymentMethodType.PIX.ordinal() &&
-        		parkingTransaction.getTypeOptionTime().ordinal() == TypeOptionTime.VARIABLE.ordinal()){
-            return ResponseEntity.badRequest().
-                    body("Registration not allowed: driver with PIX payment method can only use fixed time option.");
-        }
-
-        parkingTransaction.setId(
-                new ParkingTransactionPrimaryKey(
-                		parkingTransaction.getParking().getParkingIdentifierCode(),
-                		parkingTransaction.getDriverVehicle().getId(),
-                		parkingTransactionRepository.getMaxParkingTransactionSequenceNumber(
-                                parkingId, driverCpf, vehiclePlate)+1));
-
-        parkingTransactionRepository.save(parkingTransaction);
-        return ResponseEntity.status(HttpStatus.CREATED).body(parkingTransaction);
+	    	ParkingTransaction parkingTransaction = parkingTransactionlRequest.toParkingTransaction();
+	      
+	        Optional<Parking> optionalParking = parkingRepository.findById(parkingTransaction.getParking().getParkingIdentifierCode());
+            if (optionalParking.isEmpty()){
+                return ResponseEntity.badRequest().body("Registration not allowed: Parking ID not found.");
+            }
+	
+            Optional<DriverVehicle> optionalDriverVehicle = driverVehicleRepository.findById(parkingTransaction.getDriverVehicle().getId());
+            if (optionalDriverVehicle.isEmpty()){
+                return ResponseEntity.badRequest().body("Registration not allowed: Vehicle not found for the provided CPF and license plate.");
+            }
+	
+            parkingTransaction.setParking(optionalParking.get());
+            parkingTransaction.setDriverVehicle(optionalDriverVehicle.get());
+            int parkingId = parkingTransaction.getParking().getParkingIdentifierCode().getParkingIdentifierCode();
+            String driverCpf = parkingTransaction.getDriverVehicle().getId().getCpfDriver().getCpfDriver();
+            String vehicleLicensePlate = parkingTransaction.getDriverVehicle().getId().getDriverVehicleLicensePlate();
+            int preferredPaymentMethodCode = driverPaymentMethodRepository.getTypePaymentMethodSelectedDriver(driverCpf);
+	
+	        // If preferred payment method is PIX, do not allow parking control for variable time option
+            if (preferredPaymentMethodCode == PaymentMethodType.PIX.ordinal() &&
+            		parkingTransaction.getTypeOptionTime().ordinal() == TypeOptionTime.VARIABLE.ordinal()) {
+                return ResponseEntity.badRequest().body("Registration not allowed: Drivers with PIX payment method can only use fixed time options.");
+            }
+	
+            parkingTransaction.setId(
+                    new ParkingTransactionPrimaryKey(
+                    		parkingTransaction.getParking().getParkingIdentifierCode(),
+                    		parkingTransaction.getDriverVehicle().getId(),
+                    		parkingTransactionRepository.getMaxParkingTransactionSequenceNumber(parkingId, driverCpf, vehicleLicensePlate)+1));
+	
+	        parkingTransactionRepository.save(parkingTransaction);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(parkingTransaction);
+        }  
+    }
+    
+    private <T> Map<Path, String> validate(T dto) {
+        Set<ConstraintViolation<T>> violations = validator.validate(dto);
+        Map<Path, String> violationsMap = violations.stream()
+                .collect(Collectors.toMap(violation -> violation.getPropertyPath(), violation -> violation.getMessage()));
+        return violationsMap;
     }
     
 

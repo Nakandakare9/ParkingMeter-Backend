@@ -25,7 +25,7 @@ public class Parking {
 	
 	@Setter
 	@NonNull
-	private String corporateReason;
+	private String name;
 	
 	@Setter
 	@NonNull

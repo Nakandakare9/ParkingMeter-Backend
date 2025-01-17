@@ -8,6 +8,6 @@ import com.fiap.parkingMeter.domain.ParkingPrimaryKey;
 
 public interface ParkingRepository extends JpaRepository<Parking, ParkingPrimaryKey> {
 
-	@Query(value= "select ifnull(max(parking_identifier_code, 0)" + "from parking", nativeQuery = true)
-	int getMaxParkingId();
+	@Query(value = "SELECT IFNULL(MAX(parking_identifier_code), 0) FROM parking", nativeQuery = true)
+    int getMaxParkingId();
 }
