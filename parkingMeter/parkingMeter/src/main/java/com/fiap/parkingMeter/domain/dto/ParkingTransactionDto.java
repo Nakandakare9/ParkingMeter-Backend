@@ -19,9 +19,9 @@ public class ParkingTransactionDto {
     @NotNull(message = "Driver's CPF and vehicle's license plate cannot be null.")
     private DriverVehicle driverVehicle;
     @JsonProperty
-    @Min(value = 0, message = "Parking control time option field must be 0 or 1.")
-    @Max(value = 1, message = "Parking control time option field must be 0 or 1.")
-    @NotNull(message = "Parking control time option field cannot be null.")
+    @Min(value = 0, message = "Parking transaction time option field must be 0 or 1.")
+    @Max(value = 1, message = "Parking transaction time option field must be 0 or 1.")
+    @NotNull(message = "Parking transaction time option field cannot be null.")
     private int timeOptionCode;
     @JsonProperty
     @NotNull(message = "Driver's desired parking duration field cannot be null.")

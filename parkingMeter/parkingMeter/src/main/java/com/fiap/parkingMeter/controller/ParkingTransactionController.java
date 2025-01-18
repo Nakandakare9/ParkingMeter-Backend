@@ -15,10 +15,10 @@ import com.fiap.parkingMeter.domain.ParkingTransactionPrimaryKey;
 import com.fiap.parkingMeter.domain.dto.ParkingTransactionDto;
 import com.fiap.parkingMeter.enums.PaymentMethodType;
 import com.fiap.parkingMeter.enums.TypeOptionTime;
-import com.fiap.parkingMeter.repository.DriverPaymentMethodRepository;
 import com.fiap.parkingMeter.repository.DriverVehicleRepository;
 import com.fiap.parkingMeter.repository.ParkingRepository;
 import com.fiap.parkingMeter.repository.ParkingTransactionRepository;
+import com.fiap.parkingMeter.repository.PaymentMethodRepository;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
@@ -45,7 +45,7 @@ public class ParkingTransactionController {
     private DriverVehicleRepository driverVehicleRepository;
 
     @Autowired
-    private DriverPaymentMethodRepository driverPaymentMethodRepository;
+    private PaymentMethodRepository paymentMethodRepository;
 
     @PostMapping
     public ResponseEntity<?> registerParkingTransaction(
@@ -73,9 +73,9 @@ public class ParkingTransactionController {
             int parkingId = parkingTransaction.getParking().getParkingIdentifierCode().getParkingIdentifierCode();
             String driverCpf = parkingTransaction.getDriverVehicle().getId().getCpfDriver().getCpfDriver();
             String vehicleLicensePlate = parkingTransaction.getDriverVehicle().getId().getDriverVehicleLicensePlate();
-            int preferredPaymentMethodCode = driverPaymentMethodRepository.getTypePaymentMethodSelectedDriver(driverCpf);
+            int preferredPaymentMethodCode = paymentMethodRepository.getPreferredPaymentMethodType(driverCpf);
 	
-	        // If preferred payment method is PIX, do not allow parking control for variable time option
+	        // If preferred payment method is PIX, do not allow parking transaction for variable time option
             if (preferredPaymentMethodCode == PaymentMethodType.PIX.ordinal() &&
             		parkingTransaction.getTypeOptionTime().ordinal() == TypeOptionTime.VARIABLE.ordinal()) {
                 return ResponseEntity.badRequest().body("Registration not allowed: Drivers with PIX payment method can only use fixed time options.");

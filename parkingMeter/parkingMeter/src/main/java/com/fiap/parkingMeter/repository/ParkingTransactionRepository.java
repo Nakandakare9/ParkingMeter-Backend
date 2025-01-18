@@ -11,21 +11,16 @@ import com.fiap.parkingMeter.domain.ParkingTransaction;
 import com.fiap.parkingMeter.domain.ParkingTransactionPrimaryKey;
 
 public interface ParkingTransactionRepository extends JpaRepository<ParkingTransaction, ParkingTransactionPrimaryKey> {
-	
-	@Query(value =
-            "select ifnull(max(parking_control_sequence_number), 0)" +
-            "from parking_control " +
-            "where parking_identifier_code = :parking_identifier_code" +
-            "  and driver_cpf = :driver_cpf" +
-            "  and vehicle_driver_license_plate = :vehicle_driver_license_plate", nativeQuery = true)
-    int getMaxParkingTransactionSequenceNumber(
-            @Param("parking_identifier_code") int parkingIdentifierCode,
-            @Param("driver_cpf") String driverCpf,
-            @Param("vehicle_driver_license_plate") String vehicleDriverLicensePlate);
-    
 
-    @Query("SELECT pc FROM ParkingTransaction pc WHERE pc.parkingEndTime IS NULL " +
-            "AND pc.parkingStartTime <= :targetTime " +
-            "AND TIMESTAMPADD(SECOND, 3600, pc.parkingStartTime) >= :targetTime")
-    List<ParkingTransaction> findParkingControlsAboutToExpire(@Param("targetTime") LocalDateTime targetTime);
+	@Query(value = "select ifnull(max(parking_transaction_sequence_number), 0)" + "from parking_transaction "
+			+ "where parking_identifier_code = :parking_identifier_code" + "  and cpf_driver = :cpf_driver"
+			+ "  and driver_vehicle_license_plate = :driver_vehicle_license_plate", nativeQuery = true)
+	int getMaxParkingTransactionSequenceNumber(@Param("parking_identifier_code") int parkingIdentifierCode,
+			@Param("cpf_driver") String driverCpf,
+			@Param("driver_vehicle_license_plate") String vehicleDriverLicensePlate);
+
+	@Query("SELECT pt FROM ParkingTransaction pt WHERE pt.parkingEndTime IS NULL "
+			+ "AND pt.parkingStartTime <= :targetTime "
+			+ "AND TIMESTAMPADD(SECOND, 3600, pt.parkingStartTime) >= :targetTime")
+	List<ParkingTransaction> findParkingControlsAboutToExpire(@Param("targetTime") LocalDateTime targetTime);
 }
