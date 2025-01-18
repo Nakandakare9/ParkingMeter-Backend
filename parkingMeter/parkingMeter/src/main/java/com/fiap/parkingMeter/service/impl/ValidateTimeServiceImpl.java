@@ -31,12 +31,10 @@ public class ValidateTimeServiceImpl implements ValidateTimeService {
 		long minutesParking = parkingDuration.toMinutes();
 
 		if (minutesParking >= 60) {
-			long hoursParking = minutesParking / 60;
 			long minutesRemaining = minutesParking % 60;
 
 			if (minutesRemaining >= 55 && !alertSent) {
-				// Issuance of an alert to the driver with 5 minutes left to complete 1 hour
-				// parked
+				// Issuance of an alert to the driver with 5 minutes left to complete 1 hour parked
 				System.out.println("Warning: 5 minutes left for every hour parked.");
 				alertSent = true;
 			} else if (minutesRemaining < 55) {

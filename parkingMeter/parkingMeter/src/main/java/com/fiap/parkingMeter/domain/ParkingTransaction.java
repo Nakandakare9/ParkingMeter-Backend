@@ -34,8 +34,8 @@ public class ParkingTransaction {
     private Parking parking;
     @MapsId("driverVehiclePrimaryKey")
     @JoinColumns({
-            @JoinColumn(name = "cpf_driver"), //e99 atenção para nome da coluna
-            @JoinColumn(name = "driver_vehicle_license_plate") //e99 atenção para nome da coluna
+            @JoinColumn(name = "cpf_driver"),
+            @JoinColumn(name = "driver_vehicle_license_plate")
     })
     @ManyToOne
     @NonNull
