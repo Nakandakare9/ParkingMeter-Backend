@@ -1,6 +1,7 @@
 # ParkingMeter-Backend
 
 O ParkingMeter é um sistema de gerência de parquimetros que permite o registro e gerenciamento de parquimetros, motoriastas, veículos, métodos de pagamento, validação de estacionamento e sistema de alertas.
+Essa documentação tem como objetivo apresentar o projeto, as requisições e modelo de dados utilizados. 
 
 ## Funcionalidades
 
@@ -16,6 +17,10 @@ O ParkingMeter é um sistema de gerência de parquimetros que permite o registro
 - Spring Boot
 - Jakarta Persistence (JPA)
 - Mockito e JUnit para testes unitários
+
+## Modelo de Dados
+![image](https://github.com/user-attachments/assets/47633dc8-d0a3-42cd-9973-deb4698c1e71)
+
 
 ## Estrutura do Projeto
 
@@ -37,6 +42,10 @@ O ParkingMeter é um sistema de gerência de parquimetros que permite o registro
                 ├── controller
                 ├── service
                 └── job
+
+
+
+
 Como Executar
 Clone o repositório:
 
@@ -52,7 +61,8 @@ bash
 mvn clean install
 mvn spring-boot:run
 
-Endpoints
+
+Recursos
 
 Motoristas
 Registrar Motorista: POST /drivers
