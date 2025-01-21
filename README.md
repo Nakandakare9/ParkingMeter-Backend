@@ -1,6 +1,6 @@
 # ParkingMeter-Backend
 
-O ParkingMeter é um sistema de gerência de parquimetros que permite o registro e gerenciamento de parquimetros, motoriastas, veículos, métodos de pagamento, validação de estacionamento e sistema de alertas.
+O ParkingMeter é um sistema de gerência de parquimetros que permite o registro e gerenciamento de parquimetros, motoristas, veículos, métodos de pagamento, validação de estacionamento e sistema de alertas.
 Essa documentação tem como objetivo apresentar o projeto, as requisições e modelo de dados utilizados. 
 
 ## Funcionalidades
