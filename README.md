@@ -30,10 +30,12 @@ Clone o repositório:
 
 bash
 git clone https://github.com/Nakandakare9/ParkingMeter-Backend.git
+
 Navegue até o diretório do projeto:
 
 bash
 cd parkingMeter
+
 Compile e execute o projeto utilizando Maven:
 
 bash
@@ -175,7 +177,7 @@ mvn spring-boot:run
       "paymentMethodTypeCode": 1,
       "paymentMethodCardNumber": "5555555555554444",
       "paymentMethodCardholderName": "SORIANO ALBUQUERQUE 2",
-      "preferredPaymentMethodIndicator": "cartao2"
+      "preferredPaymentMethodIndicator": "Y"
     }
 - Excluir Método de Pagamento: DELETE /{driverCpf}/{parkingIdentifierCode}
 
@@ -214,13 +216,20 @@ Com a aplicação rodando: http://localhost:8080/swagger-ui/index.html#/
 
 ## Console H2
 Com a aplicação rodando: http://localhost:8080/h2-console
+
 JDBC URL: jdbc:h2:file:~/parkingMeter
+
 USERNAME=sa
+
 PASSWORD=
+
+## Collection POSTMAN
+https://warped-desert-475245.postman.co/workspace/New-Team-Workspace~cdb0bb21-68fe-4b72-9e48-6747473fc1f6/request/19233861-eab8c089-a9eb-44aa-9c39-0ec0a5a22b7f?tab=body
 
 ## Licença
 Este projeto é licenciado sob a Licença MIT.
 
 ## Contato
 Camila Marques de Lima - cml.isa.17@gmail.com
+
 Eduardo Bento Nakandakare - nakandakare9@gmail.com
