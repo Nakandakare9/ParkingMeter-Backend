@@ -23,30 +23,9 @@ Essa documentação tem como objetivo apresentar o projeto, as requisições e m
 
 
 ## Estrutura do Projeto
+![image](https://github.com/user-attachments/assets/736252c5-50c4-43a7-8784-148f75cdb035)
 
-```plaintext
-.
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── com.fiap.parkingMeter
-    │   │       ├── controller
-    │   │       ├── domain
-    │   │       ├── repository
-    │   │       ├── service
-    │   │       └── job
-    │   └── resources
-    └── test
-        └── java
-            └── com.fiap.parkingMeter
-                ├── controller
-                ├── service
-                └── job
-
-
-
-
-Como Executar
+##Como Executar
 Clone o repositório:
 
 bash
@@ -62,50 +41,186 @@ mvn clean install
 mvn spring-boot:run
 
 
-Recursos
+## Recursos
 
-Motoristas
-Registrar Motorista: POST /drivers
-Consultar Motoristas: GET /cpf/{driverCpf}
-Relatório de Motoristas: GET /cpf/
-Editar Motorista: PUT /drivers/{driverCpf}
-Exclui Motorista: DELETE /drivers/{driverCpf}
+### Motoristas
+- Registrar Motorista: POST /drivers
+    Request
+  ```json
+    {
+      "cpfDriver": "379.497.818-82",
+      "nameDriver": "Soriano de Albuquerque",
+      "cellphoneDriver": "(11) 98765-4321",
+      "emailDriver": "soriano9@example.com",
+      "streetAddressDriver": "Rua Camila Lima, 102",
+      "neighborhoodAddressDriver": "Centro",
+      "cityAddressDriver": "Sao Paulo"
+    }
+- Consultar Motoristas: GET /cpf/{driverCpf}
+- Relatório de Motoristas: GET /cpf/
+- Editar Motorista: PUT /drivers/{driverCpf}
+    Request
+  ```json
+    {
+      "cpfDriver": "379.497.818-82",
+      "nameDriver": "Soriano de Albuquerque",
+      "cellphoneDriver": "(13) 98765-4321",
+      "emailDriver": "soriano9@example.com",
+      "streetAddressDriver": "Rua Camila Lima, 102",
+      "neighborhoodAddressDriver": "Centro",
+      "cityAddressDriver": "Sao Paulo"
+    }
+- Exclui Motorista: DELETE /drivers/{driverCpf}
 
-Veículos
-Registrar Veículo: POST /vehicles
-Consultar Veículo por motorista e placa: GET /vehicles/cpfplate/{driverCpf}/{driverVehicleLicensePlate}
-Consultar Veículo por placa: GET /vehicles/plate/{driverVehicleLicensePlate}
-Relatório de Veículos de um Motorista: GET /vehicles/driver/{driverCpf}
-Editar Veículo: PUT /vehicles/{driverCpf}/{driverVehicleLicensePlate}
-Excluir Veículo: DELETE /vehicles/{driverCpf}/{driverVehicleLicensePlate}
+### Veículos
+- Registrar Veículo: POST /vehicles
+    Request
+  ```json
+    {
+      "driver": {
+        "cpfDriver": "379.497.818-82"
+      },
+      "driverVehicleLicensePlate": "ABC-1234",
+      "driverVehicleBrand": "Toyota",
+      "driverVehicleModel": "Corolla",
+      "yearOfManufactureDriverVehicle": "2020",
+      "modelYearVehicleDriver": "2021"
+    }
+- Consultar Veículo por motorista e placa: GET /vehicles/cpfplate/{driverCpf}/{driverVehicleLicensePlate}
+- Consultar Veículo por placa: GET /vehicles/plate/{driverVehicleLicensePlate}
+- Relatório de Veículos de um Motorista: GET /vehicles/driver/{driverCpf}
+- Editar Veículo: PUT /vehicles/{driverCpf}/{driverVehicleLicensePlate}
+    Request
+  ```json
+    {
+        "id": {
+            "cpfDriver": {
+                "cpfDriver": "379.497.818-82"
+            },
+            "driverVehicleLicensePlate": "ABC-1234"
+        },
+        "driver": {
+            "cpfDriver": {
+                "cpfDriver": "379.497.818-82"
+            },
+            "nameDriver": "Soriano de Albuquerque",
+            "cellphoneDriver": "(13) 98765-5555",
+            "emailDriver": "soriano9@example.com",
+            "streetAddressDriver": "Rua Camila Lima, 102",
+            "neighborhoodAddressDriver": "Centro",
+            "cityAddressDriver": "Sao Paulo"
+        },
+        "driverVehicleLicensePlate": "ABC-1234",
+        "driverVehicleBrand": "Toyota",
+        "driverVehicleModel": "Corolla",
+        "yearOfManufactureDriverVehicle": "2020",
+        "modelYearVehicleDriver": "2021"
+    }
+- Excluir Veículo: DELETE /vehicles/{driverCpf}/{driverVehicleLicensePlate}
 
-Parquimetro
-Registrar Parquimetro: POST /parkingmeters
-Consultar Parquimetro: GET /parkingmeters/id/{parkingIdentifierCode}
-Relatório de Parquimetros: GET /parkingmeters/
-Editar Parquimetro: PUT /parkingmeters/{parkingIdentifierCode}
-Excluir Parquimetro: DELETE /parkingmeters/{parkingIdentifierCode}
+### Parquimetro
+- Registrar Parquimetro: POST /parkingmeters
+    Request
+  ```json
+        {
+      "cnpjParking": "12.345.678/0001-95",
+      "name": "Parking Ltda",
+      "telephoneParking": "987654321",
+      "emailParking": "contact@parkinglotexample.com",
+      "streetAddressParking": "123 Main Street",
+      "neighborhoodAddressParking": "Downtown",
+      "cityAddressParking": "Sao Paulo",
+      "hourlyParkingFee": 10.50
+    }
+- Consultar Parquimetro: GET /parkingmeters/id/{parkingIdentifierCode}
+- Relatório de Parquimetros: GET /parkingmeters/
+- Editar Parquimetro: PUT /parkingmeters/{parkingIdentifierCode}
+    Request
+  ```json
+        {
+      "cnpjParking": "12.345.678/0001-95",
+      "name": "Parking Ltda 2",
+      "telephoneParking": "987654321",
+      "emailParking": "contact@parkinglotexample.com",
+      "streetAddressParking": "123 Main Street",
+      "neighborhoodAddressParking": "Downtown",
+      "cityAddressParking": "Sao Paulo",
+      "hourlyParkingFee": 10.50
+    }
+- Excluir Parquimetro: DELETE /parkingmeters/{parkingIdentifierCode}
 
-Métodos de Pagamento
-Registrar Método de Pagamento: POST /paymentmethods
-Buscar Métodos de Pagamento especifico: GET /paymentmethods/cpfsequence/{driverCpf}/{parkingIdentifierCode}
-Buscar todos os Métodos Pagamento do Motorista: GET /paymentmethods/driver/{driverCpf}
-Relatório de Métodos de Pagamento: GET /paymentmethods/
-Editar Método de Pagamento: PUT /paymentmethods/{driverCpf}/{parkingIdentifierCode}
-Excluir Método de Pagamento: DELETE /{driverCpf}/{parkingIdentifierCode}
+### Métodos de Pagamento
+- Registrar Método de Pagamento: POST /paymentmethods
+    Request
+  ```json
+        {
+      "driver": {
+        "cpfDriver": "379.497.818-82"
+      },
+      "paymentMethodTypeCode": 1,
+      "paymentMethodCardNumber": "5555555555554444",
+      "paymentMethodCardholderName": "SORIANO ALBUQUERQUE",
+      "preferredPaymentMethodIndicator": "Y"
+    }
+- Buscar Métodos de Pagamento especifico: GET /paymentmethods/cpfsequence/{driverCpf}/{parkingIdentifierCode}
+- Buscar todos os Métodos Pagamento do Motorista: GET /paymentmethods/driver/{driverCpf}
+- Relatório de Métodos de Pagamento: GET /paymentmethods/
+- Editar Método de Pagamento: PUT /paymentmethods/{driverCpf}/{parkingIdentifierCode}
+    Request
+  ```json
+        {
+      "driver": {
+        "cpfDriver": "379.497.818-82"
+      },
+      "paymentMethodTypeCode": 1,
+      "paymentMethodCardNumber": "5555555555554444",
+      "paymentMethodCardholderName": "SORIANO ALBUQUERQUE 2",
+      "preferredPaymentMethodIndicator": "cartao2"
+    }
+- Excluir Método de Pagamento: DELETE /{driverCpf}/{parkingIdentifierCode}
 
-Transações de Estacionamento
-Registrar Transação de Estacionamento: POST /parking-transaction
+### Transações de Estacionamento
+- Registrar Transação de Estacionamento: POST /parking-transaction
+    Request
+  ```json
+        {
+      "parking": {
+        "parkingIdentifierCode": 1
+      },
+        "driverVehicle": {
+            "id": {
+                "cpfDriver": {
+                    "cpfDriver": "379.497.818-82"
+                },
+                "driverVehicleLicensePlate": "DIH-1234"
+            }
+        },
+    "timeOptionCode": 0,
+    "desiredParkingDuration": 120
+    }
 
-Validação de Estacionamento
-Validar Estacionamento: Método agendado @Scheduled que valida o tempo de estacionamento a cada 60 segundos.
+### Validação de Estacionamento
+- Validar Estacionamento: Método agendado @Scheduled que valida o tempo de estacionamento a cada 60 segundos.
 
-Testes Unitários
+## Testes Unitários
 Os testes unitários utilizam Mockito e JUnit e estão localizados no diretório src/test/java/com/fiap/parkingMeter.
 
-Licença
+## Documentação Swagger
+Com a aplicação rodando: http://localhost:8080/swagger-ui/index.html#/
+
+## Pré-Requisitos
+- Java 17
+- Maven 3.6+
+
+## Console H2
+Com a aplicação rodando: http://localhost:8080/h2-console
+JDBC URL: jdbc:h2:file:~/parkingMeter
+USERNAME=sa
+PASSWORD=
+
+## Licença
 Este projeto é licenciado sob a Licença MIT.
 
-Contato
+## Contato
 Camila Marques de Lima - cml.isa.17@gmail.com
 Eduardo Bento Nakandakare - nakandakare9@gmail.com
