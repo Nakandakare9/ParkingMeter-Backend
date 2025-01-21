@@ -10,7 +10,9 @@ import com.fiap.parkingMeter.enums.TypeOptionTime;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Setter;
 
+@Setter
 public class ParkingTransactionDto {
     @JsonProperty
     @NotNull(message = "Parking ID field cannot be null.")

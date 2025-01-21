@@ -10,8 +10,11 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Setter;
+
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+@Setter
 public class PaymentMethodDto {
     @JsonProperty
     @NotNull(message = "Driver CPF field cannot be null.")

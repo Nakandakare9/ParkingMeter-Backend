@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.fiap.parkingMeter.service.ValidateTimeService;
 
+import lombok.Getter;
+
 @Service
 public class ValidateTimeServiceImpl implements ValidateTimeService {
 
 	private LocalDateTime timeStampStartParkingControl;
+	@Getter
 	private boolean alertSent;
 
 	@Override
@@ -34,7 +37,6 @@ public class ValidateTimeServiceImpl implements ValidateTimeService {
 			long minutesRemaining = minutesParking % 60;
 
 			if (minutesRemaining >= 55 && !alertSent) {
-				// Issuance of an alert to the driver with 5 minutes left to complete 1 hour parked
 				System.out.println("Warning: 5 minutes left for every hour parked.");
 				alertSent = true;
 			} else if (minutesRemaining < 55) {
